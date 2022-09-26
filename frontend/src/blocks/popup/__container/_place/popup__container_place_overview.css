@@ -1,0 +1,7 @@
+.popup__container_place_overview {
+  max-width: max-content;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+}

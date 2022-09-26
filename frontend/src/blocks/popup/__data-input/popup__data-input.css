@@ -1,0 +1,16 @@
+.popup__data-input {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
+  box-sizing: border-box;
+}
+
+.popup__data-input:not(:first-of-type) {
+  margin-top: 22px;
+}

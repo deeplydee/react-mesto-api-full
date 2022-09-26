@@ -1,0 +1,19 @@
+.register__data-input {
+  width: 100%;
+  padding: 13px 0;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  background-color: #000;
+  transition: opacity .3s ease;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.register__data-input:not(:first-of-type) {
+  margin-top: 30px;
+}

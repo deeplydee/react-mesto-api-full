@@ -1,0 +1,20 @@
+const CREATED_CODE = 201;
+const BAD_REQUEST_CODE = 400;
+const UNAUTHORIZED_CODE = 401;
+const FORBIDDEN_CODE = 403;
+const NOT_FOUND_CODE = 404;
+const CONFLICT_CODE = 409;
+const INTERNAL_SERVER_ERROR_CODE = 500;
+
+const regex = /https?:\/\/(www)?[a-z0-9-]+\.[a-z0-9\S]{2,}/;
+
+module.exports = {
+  CREATED_CODE,
+  BAD_REQUEST_CODE,
+  UNAUTHORIZED_CODE,
+  FORBIDDEN_CODE,
+  NOT_FOUND_CODE,
+  CONFLICT_CODE,
+  INTERNAL_SERVER_ERROR_CODE,
+  regex,
+};
