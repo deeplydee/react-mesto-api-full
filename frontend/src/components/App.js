@@ -42,17 +42,6 @@ function App() {
 
   const history = useHistory();
 
-  useEffect(() => {
-    api
-      .getUserData()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   function handleOpenEditAvatarPopup() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -173,19 +162,8 @@ function App() {
       });
   }
 
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     api
       .changeLikeCardStatus(card._id, !isLiked)
@@ -215,39 +193,44 @@ function App() {
       });
   }
 
-  function tokenCheck() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return;
-    }
-
-    auth
-      .getContent(token)
-      .then((res) => {
-        setUserInfo({ email: res.data.email });
-        setLoggedIn(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  useEffect(() => {
-    tokenCheck();
-  }, []);
-
   useEffect(() => {
     if (loggedIn) {
-      history.push('/');
+      api.getInitialCards()
+        .then((initialCards) => {
+          setCards(initialCards);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }, [loggedIn, history]);
+  }, [loggedIn]);
+
+  useEffect(() => {
+    getInfo();
+  }, [loggedIn]);
+
+  function getInfo() {
+    if (loggedIn) {
+      auth.getContent()
+        .then((res) => {
+          setUserInfo({ email: res.data.email });
+          setCurrentUser({
+            name: res.data.name,
+            about: res.data.about,
+            avatar: res.data.avatar,
+            _id: res.data._id,
+          });
+          setLoggedIn(true);
+          history.push('/');
+        })
+      }
+  }
 
   const onLogin = (email, password) => {
     return auth
       .login(email, password)
-      .then(({ token }) => {
+      .then(() => {
         setUserInfo({ email: email });
-        localStorage.setItem('token', token);
         setLoggedIn(true);
       })
       .catch((err) => {
@@ -270,9 +253,16 @@ function App() {
   };
 
   const onSignOut = () => {
-    setLoggedIn(false);
-    localStorage.removeItem('token');
-    history.push('/sign-in');
+    auth
+      .signOut()
+      .then((res) => {
+        setCurrentUser({});
+        setLoggedIn(false);
+        history.push('/sign-in');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

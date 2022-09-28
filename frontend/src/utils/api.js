@@ -16,6 +16,7 @@ class Api {
     return fetch(`${this._url}/cards`, {
       method: 'GET',
       headers: this._headers,
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
@@ -23,6 +24,7 @@ class Api {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: this._headers,
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
@@ -34,6 +36,7 @@ class Api {
         name: data.name,
         about: data.about,
       }),
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
@@ -44,6 +47,7 @@ class Api {
       body: JSON.stringify({
         avatar: data.avatar,
       }),
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
@@ -55,6 +59,7 @@ class Api {
         name: data.name,
         link: data.link,
       }),
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
@@ -62,6 +67,7 @@ class Api {
     return fetch(`${this._url}/cards/${_id}`, {
       method: 'DELETE',
       headers: this._headers,
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
@@ -70,20 +76,24 @@ class Api {
       ? fetch(`${this._url}/cards/${_id}/likes`, {
           method: 'PUT',
           headers: this._headers,
+          credentials: 'include',
         }).then(this._checkResponse)
       : fetch(`${this._url}/cards/${_id}/likes`, {
           method: 'DELETE',
           headers: this._headers,
+          credentials: 'include',
         }).then(this._checkResponse);
   }
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-43',
+  // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-43',
+  baseUrl: 'http://localhost:4000',
   headers: {
     authorization: 'ac643db8-86ab-4268-82ab-47aab28e37b0',
     'Content-Type': 'application/json',
   },
+  credentials: 'include',
 });
 
 export default api;

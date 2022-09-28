@@ -1,18 +1,28 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
+const cors = require('cors');
 
 const auth = require('./middlewares/auth');
-const { createUser, login } = require('./controllers/users');
+const { createUser, login, signOut } = require('./controllers/users');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 4000 } = process.env;
 
 const { routes } = require('./routes');
 const { regex } = require('./helpers/constants');
 const NotFoundError = require('./helpers/errors/not-found-error');
 
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const app = express();
+
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://localhost:3000'],
+  credentials: true,
+}));
 
 async function main() {
   try {
@@ -34,6 +44,13 @@ main();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post(
   '/signin',
@@ -63,9 +80,12 @@ app.post(
   createUser,
 );
 
+app.use('/signout', signOut);
+
 app.use(auth);
 
 app.use(routes);
+app.use(errorLogger);
 app.use(errors());
 
 app.use((req, res, next) => {

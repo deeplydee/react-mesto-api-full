@@ -19,14 +19,6 @@ class Auth {
       },
       body: JSON.stringify({ email, password }),
     }).then(this._checkResponse);
-    // return new Promise((resolve) => {
-    //   resolve({
-    //     data: {
-    //       _id: '62e946936390a4001469525d',
-    //       email: 'dmitry.pletyukhin@gmail.com',
-    //     },
-    //   })
-    // });
   }
 
   login(email, password) {
@@ -36,22 +28,35 @@ class Auth {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
-  getContent(token) {
+  getContent() {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
+      credentials: 'include',
     }).then(this._checkResponse);
+  }
+
+  signOut() {
+    return fetch(`${this._url}/signout`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    .then(this._checkResponse);
   }
 }
 
 const auth = new Auth({
-  baseUrl: 'https://auth.nomoreparties.co',
+  // baseUrl: 'https://auth.nomoreparties.co',
+  baseUrl: 'http://localhost:4000',
 });
 
 export default auth;

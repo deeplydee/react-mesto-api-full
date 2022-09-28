@@ -10,6 +10,8 @@ const UnauthorizedError = require('../helpers/errors/unauthorized-error');
 const NotFoundError = require('../helpers/errors/not-found-error');
 const ConflictError = require('../helpers/errors/conflict-error');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const getUserById = async (req, res, next) => { // get '/users/:id'
   const { id } = req.params;
   try {
@@ -128,16 +130,26 @@ const login = async (req, res, next) => {
     const user = await User.findUserByCredentials(email, password);
     const token = await jwt.sign(
       { _id: user._id },
-      'SECRET',
+      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret-key',
       { expiresIn: '7d' },
     );
     res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       httpOnly: true,
+      sameSite: 'none',
+      secure: true,
     }).send({ data: user.toJSON() });
   } catch (err) {
     next(new UnauthorizedError('Неправильные почта или пароль'));
   }
+};
+
+const signOut = (req, res, next) => {
+  res.clearCookie('jwt', {
+    sameSite: 'none',
+    secure: true,
+  });
+  next();
 };
 
 const getUserInfo = async (req, res, next) => { // get '/users/me'
@@ -165,4 +177,5 @@ module.exports = {
   updateUserAvatar,
   login,
   getUserInfo,
+  signOut,
 };

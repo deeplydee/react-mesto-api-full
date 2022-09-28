@@ -62,7 +62,7 @@ const likeCard = async (req, res, next) => { // put '/cards/:cardId/likes'
       next(new NotFoundError('Передан несуществующий id карточки'));
       return;
     }
-    res.send({ message: 'Карточке поставлен лайк', card });
+    res.send(card);
   } catch (err) {
     if (err.name === 'CastError') {
       next(new BadRequestError('Переданы некорректные данные для постановки лайка'));
@@ -83,7 +83,7 @@ const dislikeCard = async (req, res, next) => { // delete '/cards/:cardId/likes'
       next(new NotFoundError('Передан несуществующий id карточки'));
       return;
     }
-    res.send({ message: 'У карточки снят лайк' });
+    res.send(card);
   } catch (err) {
     if (err.name === 'CastError') {
       next(new BadRequestError('Переданы некорректные данные для снятия лайка'));
