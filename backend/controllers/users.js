@@ -144,12 +144,11 @@ const login = async (req, res, next) => {
   }
 };
 
-const signOut = (req, res, next) => {
+const signOut = (req, res) => {
   res.clearCookie('jwt', {
     sameSite: 'none',
     secure: true,
-  });
-  next();
+  }).send();
 };
 
 const getUserInfo = async (req, res, next) => { // get '/users/me'

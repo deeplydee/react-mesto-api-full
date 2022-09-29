@@ -50,7 +50,6 @@ class Auth {
       },
       credentials: 'include',
     })
-    .then(this._checkResponse);
   }
 }
 
