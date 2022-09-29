@@ -136,8 +136,8 @@ const login = async (req, res, next) => {
     res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       httpOnly: true,
-      sameSite: 'none',
-      secure: true,
+      // sameSite: 'none',
+      // secure: true,
     }).send({ data: user.toJSON() });
   } catch (err) {
     next(new UnauthorizedError('Неправильные почта или пароль'));
@@ -146,8 +146,8 @@ const login = async (req, res, next) => {
 
 const signOut = (req, res) => {
   res.clearCookie('jwt', {
-    sameSite: 'none',
-    secure: true,
+    // sameSite: 'none',
+    // secure: true,
   }).send();
 };
 
