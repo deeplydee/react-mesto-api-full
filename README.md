@@ -8,8 +8,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 158.160.6.5
 
-Frontend https://...
+Frontend https://deeplydee.nomoredomains.icu
 
-Backend https://...
+Backend https://api.deeplydee.nomoredomains.icu
