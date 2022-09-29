@@ -9,7 +9,7 @@ const cors = require('cors');
 const auth = require('./middlewares/auth');
 const { createUser, login, signOut } = require('./controllers/users');
 
-const { PORT = 4000 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const { routes } = require('./routes');
 const { regex } = require('./helpers/constants');
@@ -20,7 +20,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://localhost:3000'],
+  origin: ['http://localhost:3001', 'https://localhost:3001'],
   credentials: true,
 }));
 
