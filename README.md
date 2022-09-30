@@ -8,6 +8,8 @@
 
 ## Ссылки на проект
 
+ssh deeplydee-cloud@158.160.6.5
+
 IP 158.160.6.5
 
 Frontend https://deeplydee.nomoredomains.icu
