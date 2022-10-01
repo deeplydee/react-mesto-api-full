@@ -220,7 +220,10 @@ function App() {
             avatar: res.data.avatar,
             _id: res.data._id,
           });
-          setLoggedIn(true);
+          setLoggedIn(() => {
+            localStorage.setItem('loggedIn', true);
+            return true;
+          });
           history.push('/');
         })
       }
@@ -257,13 +260,23 @@ function App() {
       .signOut()
       .then((res) => {
         setCurrentUser({});
-        setLoggedIn(false);
+        setLoggedIn(() => {
+          localStorage.setItem('loggedIn', false);
+          return false;
+        });
         history.push('/sign-in');
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('loggedIn') === 'true') {
+      getInfo();
+      setLoggedIn(true);
+    }
+  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

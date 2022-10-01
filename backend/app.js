@@ -85,12 +85,13 @@ app.use('/signout', signOut);
 app.use(auth);
 
 app.use(routes);
-app.use(errorLogger);
-app.use(errors());
 
 app.use((req, res, next) => {
   next(new NotFoundError('Не найдено'));
 });
+
+app.use(errorLogger);
+app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
